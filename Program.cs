@@ -69,9 +69,96 @@ namespace BankHeist
                             userInput = Console.ReadLine();
                             if (userInput == "")
                             {
-                                memberCourage
+                                memberCourage = 0.0;
+                            }
+                            else 
+                            {
+                                memberCourage = double.Parse(userInput);
                             }
                         }
+
+                        if (memberName != "" && memberSkill != 0 && memberCourage != 0.0)
+                        {
+                            var newTeamMember = new Member(memberName, memberSkill, memberCourage);
+                            memberList.Add(newTeamMember);
+                            memberName = "";
+                            memberSkill = 0;
+                            memberCourage = 0;
+                            Console.WriteLine();
+                            Console.Write("Would you like to add a new member to the team? (Y/N): ");
+                            Console.WriteLine();
+                            userInput = Console.ReadLine().ToLower();
+                            if (userInput == "y")
+                            {
+                                addNewMember = true;
+                            }
+                            else 
+                            {
+                                addNewMember = false;
+                            }
+                        }
+                    }
+
+
+                    void createTeam()
+                    {
+                        var newTeam = new Team(memberList);
+                    }
+
+                    int setTrialRuns()
+                    {
+                        userInput = "";
+                        while (userInput = "")
+                        {
+                            Console.WriteLine();
+                            Console.Write("Please enter the number of trial runs you would like to perform: ");
+                            userInput = Console.ReadLine();
+                            Console.WriteLine();
+                        }
+                        return int.Parse(userInput);
+                    }
+
+                    int calculatedCombinedSkills()
+                    {
+                        int skillsAddition = 0;
+                        foreach (var member in memberList)
+                        {
+                            skillAddition += member.SkillLevel;
+                        }
+                        return skillsAddition += member.SkillLevel;
+                    }
+
+                    void calculateHeistResult(int difficulty, int allTeamSkills)
+                    {
+                        Console.WriteLine("=====Trial Runs====");
+                        Console.WriteLine($"Bank Difficulty: {difficultyLevel}");
+                        Console.WriteLine($"Team Skill Level: {allTeamSkills}");
+                    }
+                    else 
+                    {
+                        Console.WriteLine("Failed to rob bank!");
+                    }
+                }
+
+                void RunHeist()
+                {
+                    combinedSkills = calculateCombinedSkills();
+
+                    for (int i = 0; i < trialRuns; i++)
+                    {
+                        teamLuck = new Random().Next(-11, 11);
+                        BankDifficultyLevel = teamLuck + BankDifficulty;
+                        if (combinedSkills >= BankDifficulty)
+                        {
+                            successfulRuns++;
+                        }
+                        else 
+                        {
+                            failedRuns++;
+                        }
+
+
+                        calculateHeistResult(BankDifficultyLevel, combinedSkills);
                     }
                 }
             }
